@@ -28,10 +28,8 @@ N.
 
 Przykład
 Wejście
-Copy code
 5
 Wyjście
-Copy code
 120
 Uwaga
 Silnia liczby 
