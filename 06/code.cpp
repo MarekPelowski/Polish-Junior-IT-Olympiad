@@ -9,25 +9,14 @@ int main()
     std::cin >> n;
 
     int maxNum = pow(10, countDigits(n) - 1);
+    // important line:  || maxNum <= pow(10, (countDigits(n) / 2) - 1)
 
-    std::cout << std::endl << (n % 100) % (100 / 10) << std::endl;
-
-    std::cout << std::endl <<  (n / 1000) % (100 / 10) << "   " << (n % 100) / (100 / 10) << std::endl << std::endl;
-
-    for(int i = 10; i != maxNum ; i*=10){
-        if(i == 10){
-            if((n / maxNum) != (n % i) / (i / 10)){
-                std::cout << "NO #" << i << std::endl;
-            }
-        }
-        else{
-            if((n / maxNum) % (i / 10) != (n % i) / (i / 10)){
-                std::cout << "NO #" << i << std::endl;
-            }  
+    for(int i = 1; i != maxNum; i*=10){
+        if((n / maxNum) % 10 != (n % (i * 10)) / i){
+            std::cout << "NO #" << i << std::endl;
         }
         maxNum /= 10;
     }
-   
 
     return 0;
 }
