@@ -1,6 +1,6 @@
 #include <iostream>
 
-int greatestCommonDivisor(int num1, int num2);
+int greatestCommonDivisor(int a, int b);
 
 int main()
 {
