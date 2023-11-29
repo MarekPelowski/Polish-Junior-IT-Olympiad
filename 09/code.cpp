@@ -14,16 +14,13 @@ int main()
     return 0;
 }
 
-int greatestCommonDivisor(int num1, int num2){
+int greatestCommonDivisor(int a, int b){
     
-    int nwd;
-    int smallerNum = num1 < num2 ? num1 : num2;
-
-    for(int i = 1; i <= smallerNum; i++){
-        if(num1 % i == 0 && num2 % i == 0){
-            nwd = i;
-        }
+    while(b > 0){
+        int temp = b;
+        b = a % b;
+        a = temp;
     }
 
-    return nwd;
+    return a;
 }
