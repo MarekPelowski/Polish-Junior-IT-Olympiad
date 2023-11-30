@@ -7,7 +7,7 @@ int main()
     int N;
     std::cin >> N;
 
-    for(int i = 2; i <= N; i++){
+    for(int i = 2; i * i <= N; i++){
         if(isPrimeNumber(i)){
             std::cout << i << " ";
         }
@@ -21,7 +21,7 @@ bool isPrimeNumber(int num){
         return false;
     }
 
-    for(int i = 2; i * i < num; i++){
+    for(int i = 2; i <= num / 2; i++){
         if(num % i == 0){
             return false;
         }
