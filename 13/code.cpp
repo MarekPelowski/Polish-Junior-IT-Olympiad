@@ -20,29 +20,13 @@ int main()
         }
 
         for(int j = 0; j < 26; j++){
-            if()
 
             if(code[i] == alphabet[j]){
-                code[i] = alphabet[j + K];
+                code[i] = alphabet[j - K];
                 break;
             }
         }
     }
-
-
-/*
-    for(int i = 0; i < code.length(); i++){
-        if(code[i] == ' '){
-            continue;
-        }s
-
-        for(int j = 0; j < 26; j++){
-            if(code[i] == alphabet[j]){
-                code[i] = alphabet[j + N];
-            }
-        }
-    }
-*/
 
     std::cout << code;
 
