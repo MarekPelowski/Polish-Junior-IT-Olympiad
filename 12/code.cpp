@@ -1,11 +1,10 @@
 #include <iostream>
 
-int findBiggestRectangle(std::string board[], int N, int M);
-void a(std::string board[], int &i, int &j, int &sum, int &bsum);
-void b(std::string board[], int &i, int &j, int &sum, int &bsum);
+void findBiggestRectangle(std::string board[], int N, int M);
+void singleCheck(std::string board[], int &sum, int &bsum, int &i, int &j);
+void multipleChecks(std::string board[], int &sum, int &bsum, int &i, int &j, int M);
 
-int repeat = 0;
-int repeat2 = 0;
+int idk = 0;
 
 int main()
 {
@@ -25,81 +24,118 @@ int main()
     return 0;
 }
 
-void a(std::string board[], int &i, int &j, int &sum, int &bsum){
-    if(board[i][j] == '#'){
-        sum++;
-        if(bsum < sum){
-            bsum = sum;
-        }
-    }
-    else{
-        sum = 0;
-    }
-}
-
-void b(std::string board[], int &i, int &j, int &sum, int &bsum){
-
-    if(board[i][j] == '#'){
-        if(repeat == 1){
-            sum = 0;
-            repeat = 3;
-            j = 0;
-            a(board, i, j, sum, bsum);
-        }
-        sum++;
-        if(bsum < sum){
-            bsum = sum;
-        }
-        if(repeat == 0){
-            for(int k = i - 1; k >= 0; k--){
-                if(board[k][j] == '#'){
-                    sum++;
-                    if(bsum < sum){
-                        bsum = sum;
-                    }
-                    if(board[k][j + 1] != '#' && repeat2 == 1){
-                        sum = 0;
-                        repeat2 = 3;
-                        a(board, i, j, sum, bsum);
-                    }
-                    if(board[k][j + 1] == '.'){
-                        repeat = 1;
-                        sum = 0;
-                    }
-                }
-                else{
-                    if(board[k][j + 1] == '#'){
-                        repeat2 = 1;
-                        sum = 0;
-                    }
-                }
-            }
-        }
-        if(bsum < sum){
-            bsum = sum;
-        }
-    }
-    else{
-        sum = 0;
-    }
-}
-
-int findBiggestRectangle(std::string board[], int N, int M){
-    int bsum = 0;
+void findBiggestRectangle(std::string board[], int N, int M){
     int sum = 0;
+    int bsum = 0;
 
     for(int i = 0; i < N; i++){
         for(int j = 0; j < M; j++){
             if(i == 0){
-                a(board, i, j, sum, bsum);
+                singleCheck(board, sum, bsum, i, j);
             }
-            else{
-                b(board, i, j, sum, bsum);
+            else if(i > 0){
+                multipleChecks(board, sum, bsum, i, j, M);
             }
         }
         sum = 0;
     }
-    std::cout << bsum << " ";
+    std::cout << bsum;
+}
 
-    return 0;
+void singleCheck(std::string board[], int &sum, int &bsum, int &i, int &j){
+    if(board[i][j] == '#'){
+        sum++;
+        if(bsum < sum){
+            bsum = sum;
+        }
+    }
+    else if(board[i][j] == '.'){
+        sum = 0;
+    }
+}
+void multipleChecks(std::string board[], int &sum, int &bsum, int &i, int &j, int M){
+    if(board[i][j] == '#'){
+
+        bool reset = false;
+        int temp = sum;
+        sum = 0;
+
+        for(int k = i; k >= 0; k--){
+            if(board[k][j] == '#'){
+                sum++;
+                if(bsum < sum){
+                    bsum = sum;
+                }
+            }
+            else if(board[k][j] == '.'){
+                sum = 0;
+            }
+        }
+
+        sum = 0;
+ 
+        for(int n = j; n < M; n++){
+            singleCheck(board, sum, bsum, i, n);
+        }
+
+        sum = temp;
+    
+        //...#
+        //.#..
+        //##..   <--- BŁĄD
+        //##..
+        //....
+
+        if(j == M-1){
+            for(int m = i; m >= 0; m--){
+                if(board[m][j] == '#'){
+                    if(board[m][j - 1] == '#'){
+                        idk = 1;
+                        sum++;
+                        //std::cout << sum << " " << m << " " << j << std::endl;
+                        if(bsum < sum){
+                            bsum = sum;
+                        }
+                    }
+                    else{
+                        sum = 0;
+                        break;
+                    }
+                }
+                else{
+                    break;
+                }
+            }
+        }
+        else if(j < M-1){
+            for(int m = i; m >= 0; m--){
+                if(board[m][j] == '#'){
+                    if(board[m][j + 1] == '#'){
+                        sum++;
+                        //std::cout << sum << " " << m << " " << j << std::endl;
+                        if(bsum < sum){
+                            bsum = sum;
+                        }
+                    }
+                    else{
+                        if(board[m][j - 1] == '#'){
+                            sum++;
+                            if(bsum < sum){
+                                bsum = sum;
+                            }
+                            else{
+                                break;
+                            }
+                        }
+                    }
+                }
+                else{
+                    break;
+                }
+            }
+        }
+    }
+    else if(board[i][j] == '.'){
+        sum = 0;
+    }
 }
