@@ -1,29 +1,24 @@
 #include <iostream>
 #include <vector>
 
-int k = 0;
-
-std::string smallest(std::vector<int> arr){
-    for(int m = 0; m < arr.size(); m++){
-        std::cout << arr[m] << std::endl;
-    }
-
+int smallest(std::vector<int> arr, int &index){
     int smallest = arr[0];
-    k = 0;
+    index = 0;
     
     for(int i = 1; i < arr.size(); i++){
-        if(arr[i] < arr[k]){
+        if(arr[i] < arr[index]){
             smallest = arr[i];
-            k = i;
+            index = i;
         }
     }
 
-    return std::to_string(smallest);
+    return smallest;
 }
 
 int main()
 {
     std::string number;
+    int index;
 
     std::cout << "Type the amount of numbers: ";
     int size;
@@ -32,14 +27,14 @@ int main()
     std::vector<int> arr;
 
     for(int i = 0; i < size; i++){
-        int size2;
-        std::cin >> size2;
-        arr.push_back(size2); 
+        int digit;
+        std::cin >> digit;
+        arr.push_back(digit); 
     }
 
     for(int i = 0; i < size; i++){
-        number += smallest(arr);
-        arr.erase(arr.begin() + k);
+        number += std::to_string(smallest(arr, index));
+        arr.erase(arr.begin() + index);
     }
 
     for(int i = 1; i < number.length(); i++){
