@@ -13,16 +13,13 @@ int main()
 }
 
 long long calculateDivision(long long n){
-    long long m;
 
-    long long divisionResult = 9 - (n % 9);
+    int lastNum = n % 10;
+    int lastNum2 = (lastNum + (9 - (n % 9))) % 9;
 
-    if(((n + divisionResult) / 10) % 10 == (n / 10) % 10){
-        m = n + divisionResult;
-    }
-    else{
-        m = n - (n % 9);
-    }
+    if(lastNum2 == 0) lastNum2 = 9;
+
+    long long m = n - lastNum + lastNum2;
 
     return m;
 }
