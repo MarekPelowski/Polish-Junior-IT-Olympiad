@@ -9,11 +9,16 @@ int main()
     int countB = 0;
 
     for(int i = 0; i < S.length(); i++){
-        if(S[i] == 'A' || S[i] == 'a') {
-            countA++;
-        } else if (S[i] == 'B' || S[i] == 'b') {
-            countB++;
+        for(int j = i; j < S.length(); j++){
+            for(int k = j; k > 0; k-){}
+                if(S[i] == 'A' || S[i] == 'a') {
+                    countA++;
+                } else if (S[i] == 'B' || S[i] == 'b') {
+                    countB++;
+                }
+            }
         }
+
     }
 
     if(countA == countB && countA > 0){

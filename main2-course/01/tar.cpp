@@ -12,10 +12,11 @@ long long findx(long long p, long long q){
     long long srodek;
 
     while(poczatek < koniec){
-        srodek = poczatek + (koniec - poczatek + 1) / 2;
+        srodek = (koniec - poczatek + 1) / 2;
 
         if(rownanie(p, srodek) <= q){
             poczatek = srodek;
+            
         }
         else{
             koniec = srodek - 1;
