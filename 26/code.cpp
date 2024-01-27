@@ -22,43 +22,39 @@ int main()
         std::cout << A[i] << " ";
     }
 
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl;
 
     int streak = 1;
-    int lastStreak = 1;
 
     for(int i = 0; i < A.size(); i++){
         if(A[i] == A[i - 1]){
             streak++;
         } else {
-            lastStreak = streak;
             streak = 1;
         }
 
-        std::cout << streak;
-
         if((A[i] != A[i + 1]) || (i == A.size() - 1)){
-            std::cout << "n";
 
             if((i - (streak - 1)) >= A[(i - (streak - 1))]){
-                //A.erase(A.begin() + i);
-                //i--;
 
-                if((i - (streak - 1)) - (streak - 1) < streak){
-                    std::cout << "y";
+                if((i - (streak - 1)) - (streak - 1) < A[i]){
+
+                    while((i - (streak - 1)) >= A[i]){
+                        A.erase(A.begin());
+                        i--;
+                    }
+                } else {
+                    for(int j = 0; j < streak; j++){
+                        A.erase(A.begin() + i - (streak - 1));
+                        i--;  
+                    }
                 }
-                std::cout << "g";
             }
         }
-
-        std::cout << "  ";
-;    }
-
-    for(int i = 0; i < A.size(); i++){
-        std::cout << A[i] << " ";
     }
 
 
+    std::cout << A.size();
 
     return 0;
 }
