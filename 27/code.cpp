@@ -67,7 +67,18 @@ int main()
         squareCords[i][1]--;
     }
 
-    std::vector<std::vector<int>> histogram(N, std::vector<int>(N, 0));
+    int biggestX = 0;
+    int biggestY = 0;
+
+    for(int i = 0; i < N; i++){
+        biggestX = std::max(biggestX, squareCords[i][0]);
+    }
+
+    for(int i = 0; i < N; i++){
+        biggestY = std::max(biggestX, squareCords[i][1]);
+    }
+
+    std::vector<std::vector<int>> histogram(biggestX, std::vector<int>(biggestY, 0));
 
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
@@ -85,18 +96,6 @@ int main()
             }
         }
     }
-
-    std::cout << std::endl;
-
-    for(int i = 0; i < N; i++){
-        for(int j = 0; j < N; j++){
-            std::cout << histogram[i][j];
-
-        }
-        std::cout << std::endl;
-    }
-
-    std::cout << std::endl << std::endl;
 
     int biggestBlock = 0;
     int finalX, finalY;

@@ -18,12 +18,6 @@ int main()
 
     std::sort(A.begin(), A.begin() + N);
 
-    for(int i = 0; i < N; i++){
-        std::cout << A[i] << " ";
-    }
-
-    std::cout << std::endl;
-
     int streak = 1;
 
     for(int i = 0; i < A.size(); i++){
