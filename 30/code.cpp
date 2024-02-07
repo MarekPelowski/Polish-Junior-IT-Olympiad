@@ -26,7 +26,7 @@ int main()
         } else if (players[i + 2] - players[i + 1] <= 1) {
             continue;
         }
-        i+=3; // if the next set is not worth checking, skip
+        i+=2; // if the next set is not worth checking, skip
     }
 
     std::cout << C;
