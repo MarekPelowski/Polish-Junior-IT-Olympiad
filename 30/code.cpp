@@ -22,11 +22,12 @@ int main()
         if(players[i + 2] - players[i] <= 1) {
             C++;
             i+=2;
+            continue;
         // if the difference between 2nd and 3rd number from the set is 1 or 0 than don't skip the next iterations
         } else if (players[i + 2] - players[i + 1] <= 1) {
             continue;
         }
-        i+=2; // if the next set is not worth checking, skip
+        i++; // if the next number is not worth checking, skip
     }
 
     std::cout << C;
