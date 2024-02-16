@@ -1,66 +1,44 @@
 #include <iostream>
 #include <cmath>
-#include <vector>
 
-long long rownanie(long long p, long long x){
-    return x * x * x + p * x;
+long long wynikRownania(long long x, long long p){
+    return pow(x, 3) + p * x;
 }
 
-long long findx(long long p, long long q){
-    long long poczatek = 0;
-    long long koniec = q;
-    long long srodek;
+long long obliczRownanie(long long p, long long q)
+{
+    long long zakresDol = 0,
+              zakresGor = q;
 
-    while(poczatek < koniec){
-        srodek = (koniec - poczatek + 1) / 2;
+    long long cel = q;
 
-        if(rownanie(p, srodek) <= q){
-            poczatek = srodek;
-            
+    while(zakresDol < zakresGor){
+
+        long long srodek = (zakresDol + zakresGor) / 2;
+
+        if(wynikRownania(srodek, p) >= cel){
+            zakresGor = srodek;
+        } else {
+            zakresDol = srodek + 1;
         }
-        else{
-            koniec = srodek - 1;
-        }
     }
 
-    std::cout << poczatek << std::endl;
+    if(wynikRownania(zakresDol, p) == q)
+        return zakresDol;
 
-    if(rownanie(p, poczatek) == q){
-        return poczatek;
-    }
-    else{
-        return -1;
-    }
+    return -1;
 }
-
 
 int main()
 {
-    int z;
-    std::cin >> z;
-
     long long p, q;
     std::cin >> p >> q;
 
-    //std::vector<long long> storeValues;
-
-    std::cout << findx(p, q);
-
-    // for(int i = 0; i < z; i++){
-    //     long long p, q;
-    //     std::cin >> p >> q;
-    //     storeValues.push_back(findx(p, q));
-    // }
-
-    // for(int i = 0; i < z; i++){
-    //     if(storeValues[i] == -1){
-    //         std::cout << "NIE" << std::endl;
-    //         std::cout << storeValues[i] << std::endl;
-    //     }
-    //     else{
-    //         std::cout << storeValues[i] << std::endl;
-    //     }
-    // }
+    if(wynikRownania(obliczRownanie(p, q), p) == q)
+        std::cout << obliczRownanie(p, q);
+    else {
+        std::cout << "NIE";
+    }
 
     return 0;
 }
