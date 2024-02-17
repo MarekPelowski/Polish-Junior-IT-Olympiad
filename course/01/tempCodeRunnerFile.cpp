@@ -1,2 +1,1 @@
-
-            poczatek = srodek;
+90000
