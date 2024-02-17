@@ -3,7 +3,9 @@
 #include <vector>
 
 long long wynikRownania(long long x, long long p){
-    return pow(x, 3) + p * x;
+    long long potega = (long long)x * (long long)x * (long long)x; // I use this code because the pow(x, 3) doesn't work with long long type
+
+    return potega + p * x;
 }
 
 long long obliczRownanie(long long p, long long q)
@@ -19,8 +21,6 @@ long long obliczRownanie(long long p, long long q)
         counter++;
 
         long long srodek = (zakresDol + zakresGor) / 2;
-
-        std::cout << wynikRownania(srodek, p) << "   " << zakresDol << "   " << srodek << "   " << zakresGor << std::endl;
 
         if(wynikRownania(srodek, p) >= q) {
             zakresGor = srodek;
@@ -52,7 +52,7 @@ int main()
     }
 
     for(int i = 0; i < z; i++){
-        if(results[i] >= 0) 
+        if(results[i] >= 0)
             std::cout << results[i] << std::endl;
         else
             std::cout << "NIE" << std::endl;
