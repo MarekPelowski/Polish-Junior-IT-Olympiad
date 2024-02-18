@@ -1,2 +1,1 @@
-
-    std::cout << std::endl << particleCounter << std::endl;
+std::cout << bottomParticle << " " << topParticle << std::endl;

@@ -1,12 +1,14 @@
 #include <iostream>
 #include <vector>
 
-int findParticleSpeed(int particle, std::vector<int> particles)
+int findParticleSpeed(int particle, std::vector<int> &particles)
 {   
     int bottomRange = 0;
     int topRange = particles.size() - 1; // the last index
 
-    // use binary search to find the index of the particle
+    int bottomParticle, topParticle;
+
+    // use binary search to find the index of the first particle
     while(bottomRange < topRange) {
         int middle = (bottomRange + topRange) / 2;
 
@@ -15,16 +17,26 @@ int findParticleSpeed(int particle, std::vector<int> particles)
         else
             bottomRange = middle + 1;
     }
+    bottomParticle = bottomRange; // save the first particle index
 
-    int particleCounter = 0;
-    
-    // count the particles by erasing them and adding to the counter
-    while(particles[bottomRange] == particle && bottomRange < particles.size()){
-        particleCounter++;
-        particles.erase(particles.begin() + bottomRange);
+
+    // use binary search again to find the index of the last particle
+    topRange = particles.size() - 1;
+    while(bottomRange < topRange) {
+        int middle = (bottomRange + topRange + 1) / 2;
+
+        if(particles[middle] <= particle)
+            bottomRange = middle;
+        else
+            topRange = middle - 1;
     }
+    topParticle = topRange;
 
-    return particleCounter;
+    if (bottomParticle >= particles.size() || particles[bottomParticle] != particle) 
+        return 0;
+
+
+    return (topParticle - bottomParticle) + 1;
 }
 
 int main()
@@ -49,7 +61,7 @@ int main()
     }
 
     for(int i = 0; i < q; i++){
-        std::cout << results[i] << std::endl;
+         std::cout << results[i] << std::endl;
     }
 
     return 0;
