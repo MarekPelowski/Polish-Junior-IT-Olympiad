@@ -1,1 +1,2 @@
-90000
+
+    std::cout << std::endl << particleCounter << std::endl;
