@@ -19,11 +19,16 @@ int smallestDivisor(int num)
 
 bool isChoclateish(int a, int b, int A, int B)
 {
-    if(a > std::max(A, B))
+    std::cout << "1: " << a << " " << b << std::endl;
+
+    if(std::max(a, b) <= std::max(A, B) && std::min(a, b) <= std::min(A, B))
+        return 1;
+
+    if(a > A && b*2 <= B)
         return isChoclateish(a/smallestDivisor(a), b*smallestDivisor(a), A, B);
 
-    if(b <= std::min(A, B))
-        return 1;
+    if(b > B && a*2 <= A)
+        return isChoclateish(a*smallestDivisor(a), b/smallestDivisor(a), A, B);
 
     return 0;
 }
@@ -33,7 +38,9 @@ int main()
     int A, B, C, D;
     std::cin >> A >> B >> C >> D;
 
-    std::cout << isChoclateish(std::max(C, D), std::min(C, D), A, B);
+    std::cout << smallestDivisor(903) << std::endl << std::endl;
+
+    std::cout << isChoclateish(std::max(C, D), std::min(C, D), std::max(A, B), std::min(A, B));
 
     return 0;
 }
