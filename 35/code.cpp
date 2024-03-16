@@ -5,12 +5,12 @@ int findOneNum(int A, int B, int C, int D)
 {   
     std::set<int> divisors;
 
-    for(int i = 1; i * i <= C; i++){
-        if(C % i == 0) {
-            divisors.insert(i);
-            divisors.insert(C/i);
-        }
-    }
+    // for(int i = 1; i * i <= C; i++){
+    //     if(C % i == 0) {
+    //         divisors.insert(i);
+    //         divisors.insert(C/i);
+    //     }
+    // }
 
     for(int i = 1; i * i <= D; i++){
         if(D % i == 0) {
