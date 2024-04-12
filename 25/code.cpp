@@ -10,7 +10,7 @@ int main()
 
     for(int i = 0; i < S.length(); i++){
         for(int j = i; j < S.length(); j++){
-            for(int k = j; k > 0; k-){}
+            for(int k = j; k > 0; k--){
                 if(S[i] == 'A' || S[i] == 'a') {
                     countA++;
                 } else if (S[i] == 'B' || S[i] == 'b') {
