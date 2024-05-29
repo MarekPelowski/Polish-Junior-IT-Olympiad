@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 int main()
 {
@@ -13,17 +14,33 @@ int main()
 
     std::cin >> M;
     std::vector<int> A(M);
-    for(int i = 0; i < M; i++) {
-        std::cin >> A[i];
+    if(M > 0) {
+        for(int i = 0; i < M; i++) {
+            std::cin >> A[i];
+        }
     }
 
     std::cin >> T;
 
+    std::sort(H.begin(), H.end());
+    std::sort(A.begin(), A.end(), std::greater<int>());
+
+    int i = 0, ppl = 0;
+
+    for(int growth : H) {
+        if(i < M) {
+            if(growth + A[i] >= T) {
+                ppl++;
+                i++;
+            }
+        } else {
+            if(growth >= T) {
+                ppl++;
+            }
+        }
+    }
+
+    std::cout << ppl;
+
     return 0;
 }
-
-// (N) liczba osób
-// ciąg (H) wzrostów osób
-// (M) liczba par klapek w sklepie
-// ciąg (A) rozmiarów klapek
-// (T) minimalny wzrost do zjazdu
