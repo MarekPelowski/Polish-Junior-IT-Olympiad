@@ -35,19 +35,23 @@ int main()
     for(const auto& pair : workTimes)
         left = std::min(left, pair.second);
 
+    std::cout << std::endl;
+
     while(left < right){
         int mid = (left + right + 1) / 2;
-        
-        if(balance(workTimes, mid) <= 0)
-            right = mid;
-        else
-           left = mid;
-        
+        int midBalance = balance(workTimes, mid);
 
-        break;
+        std::cout << mid << " " << midBalance << std::endl;
 
+        if(midBalance >= 0){
+            left = mid;
+        }
+        else {
+           right = mid - 1;
+        }
     }
-    
+
+    std::cout << std::endl << left << std::endl;
 
     return 0;
 }
