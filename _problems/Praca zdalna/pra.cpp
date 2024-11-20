@@ -25,13 +25,12 @@ int main()
     for(int i = 0; i < N; i++)
         std::cin >> workTimes[i].first >> workTimes[i].second;
     
-    std::sort(workTimes.begin(), workTimes.end());
-    int left = 10e8;
-    int right = workTimes[N - 1].first;
+    int left = 10e8, right = 0;
 
-    for(const auto& pair : workTimes)
+    for(const auto& pair : workTimes){
         left = std::min(left, pair.second);
-
+        right = std::max(right, pair.first);
+    }
     int minDiff = 10e4; // minimal left-right difference
     int ansPlace = -1, ans = 0;
 
