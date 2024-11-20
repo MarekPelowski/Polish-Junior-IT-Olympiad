@@ -13,7 +13,6 @@ int balance(std::vector<std::pair<int, int>> workTimes, int num)
         else if(pair.first > num)
             right++;
     }
-
     return right - left;
 }
 
@@ -21,37 +20,49 @@ int main()
 {
     int N;
     std::cin >> N;
-
     std::vector<std::pair<int, int>> workTimes(N);
 
     for(int i = 0; i < N; i++)
         std::cin >> workTimes[i].first >> workTimes[i].second;
-
+    
     std::sort(workTimes.begin(), workTimes.end());
-
     int left = 10e8;
     int right = workTimes[N - 1].first;
 
     for(const auto& pair : workTimes)
         left = std::min(left, pair.second);
 
-    std::cout << std::endl;
+    int minDiff = 10e4; // minimal left-right difference
+    int ansPlace = -1, ans = 0;
 
     while(left < right){
         int mid = (left + right + 1) / 2;
         int midBalance = balance(workTimes, mid);
 
-        std::cout << mid << " " << midBalance << std::endl;
-
         if(midBalance >= 0){
             left = mid;
+            if(midBalance < minDiff){
+                minDiff = midBalance;
+                ansPlace = mid;
+            }
         }
         else {
-           right = mid - 1;
+            right = mid - 1;
+            if(-midBalance < minDiff){
+                minDiff = -midBalance;  
+                ansPlace = mid;
+            }
         }
     }
 
-    std::cout << std::endl << left << std::endl;
+    for(const auto& pair : workTimes){
+        if(pair.second < ansPlace)
+            ans += ansPlace - pair.second;
+        else if(pair.first > ansPlace)
+            ans += pair.first - ansPlace;
+    }
+
+    std::cout << ansPlace << " " << ans << '\n';
 
     return 0;
 }
