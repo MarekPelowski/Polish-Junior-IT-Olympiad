@@ -32,7 +32,7 @@ int main()
         right = std::max(right, pair.first);
     }
     int minDiff = 10e4; // minimal left-right difference
-    int ansPlace = -1, ans = 0;
+    int ansPlace = workTimes[0].first, ans = 0;
 
     while(left < right){
         int mid = (left + right + 1) / 2;
