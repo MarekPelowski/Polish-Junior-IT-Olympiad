@@ -8,22 +8,22 @@ using namespace std;
 int maxNum(vector <int> T) {
     int N = T.size();
     // I'm using sparse table to find the max value
-    vector <vector <int>> S((int)log2(N), std::vector <int>(N, -1)); // S[k+1][i] = min(S[k][i], S[k][i+2^k])
+    vector <vector <int>> S((int)log2(N) + 1, std::vector <int>(N, -1)); // S[k+1][i] = min(S[k][i], S[k][i+2^k])
 
     for(int i = 0; i < N; i++)
         S[0][i] = T[i];
 
     for(int k = 1; k * k <= N; k++) {
         for(int i = 0; i + pow(2, k) - 1 < N; i++) {
-            cout << S[k - 1][i] << " " << S[k - 1][i + pow(2, k - 1)] << "\n";
+            S[k][i] = min(S[k - 1][i], S[k - 1][i + pow(2, k - 1)]);
         }
     }
 
-    // for(auto vec : S) {
-    //     for(int num : vec)
-    //         cout << num << " ";
-    //     cout << "\n";
-    // }
+    for(auto vec : S) {
+        for(int num : vec)
+            cout << num << " ";
+        cout << "\n";
+    }
 
     return 0;
 }
