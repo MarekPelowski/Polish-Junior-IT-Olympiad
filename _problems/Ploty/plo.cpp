@@ -72,10 +72,6 @@ int main()
         seconds.push_back(T[i].second);
     }
 
-    for(int num : firsts)
-        cout << num << " ";
-    cout << "\n";
-
     auto maxTable = getMax(seconds);
     auto minTable = getMin(seconds);
 
@@ -94,9 +90,22 @@ int main()
         int maxNum = max(maxTable[k][startIndex], maxTable[k][endIndex - pow(2, k) + 1]);
 
         if(minNum < start - 1 || maxNum > end + 1) {
-            cout << "found intersection" << start - 1 << " " << end + 1 << endl;
-        }
+            int wrongCount = 0;
+            pair<int, int> wrong;
 
+            for(int i = startIndex; i <= endIndex; i++) {
+                if(seconds[i] < start - 1 || seconds[i] > end + 1) {
+                    wrongCount++;
+                    wrong = make_pair(min(firsts[i], seconds[i]), max(firsts[i], seconds[i]));
+                }
+            }
+
+            if(wrongCount == 1)
+                cout << wrong.first << " " << wrong.second;
+            else
+                cout << start - 1 << " " << end + 1;
+            break;
+        }
     }
 
     return 0;
