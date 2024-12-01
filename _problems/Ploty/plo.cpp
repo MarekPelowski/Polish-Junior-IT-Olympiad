@@ -54,36 +54,50 @@ int main()
     int N;
     cin >> N;
     vector<pair<int, int>> T;
+    vector<pair<int, int>> singleT(N-2);
     for (int i = 0; i < N - 2; i++) {
         int p, q;
         cin >> p >> q;
-        T.push_back(make_pair(min(p, q), max(p, q)));
+        T.push_back(make_pair(p, q));
+        T.push_back(make_pair(q, p));
+        singleT[i] = make_pair(p, q);
     }
     sort(T.begin(), T.end());
-    vector<int> firsts(N - 2), seconds(N - 2);
+    vector<int> firsts, seconds;
 
-    for(int i = 0; i < N - 2; i++) {
-        firsts[i] = T[i].first;
-        seconds[i] = T[i].second;
+    int T_size = 2 * (N - 2);
+
+    for(int i = 0; i < T_size; i++) {
+        firsts.push_back(T[i].first);
+        seconds.push_back(T[i].second);
     }
+
+    for(int num : firsts)
+        cout << num << " ";
+    cout << "\n";
 
     auto maxTable = getMax(seconds);
     auto minTable = getMin(seconds);
 
-    // for(int i = 0; i < N - 2; i++) {
-    //     int start = firsts[i] + 1;
-    //     int end = seconds[i] - 1;
+    for(int i = 0; i < N - 2; i++) {
+        int start = min(singleT[i].first, singleT[i].second) + 1;
+        int end = max(singleT[i].first, singleT[i].second) - 1;
 
-    //     int k = (int)log2(end - start + 1);
-    //     int maxNum = maxTable[k][i];
-    //     int minNum = minTable[k][i];
+        int endIndex = getIndex(firsts, end);
+        int startIndex = getIndex(firsts, start - 1) + 1;
 
-    //     cout << start << " " << end << " " << maxNum << " " << minNum << "\n";
-    // }
+        if(endIndex < startIndex)
+            continue;
 
-    // int k = (int)log2(end - start + 1);
-    // int maxNum = max(maxTable[k][start], maxTable[k][end - pow(2, k) + 1]);
-    // int minNum = min(minTable[k][start], minTable[k][end - pow(2, k) + 1]);
+        int k = log2(end - start + 1);
+        int minNum = min(minTable[k][startIndex], minTable[k][endIndex - pow(2, k) + 1]);
+        int maxNum = max(maxTable[k][startIndex], maxTable[k][endIndex - pow(2, k) + 1]);
+
+        if(minNum < start - 1 || maxNum > end + 1) {
+            cout << "found intersection" << start - 1 << " " << end + 1 << endl;
+        }
+
+    }
 
     return 0;
 }
