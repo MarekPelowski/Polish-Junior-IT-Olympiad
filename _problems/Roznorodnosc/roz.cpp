@@ -31,3 +31,7 @@ int main() {
 
     return 0;
 }
+
+// That's old code that doesn't work!
+// use ios_base::sync_with_stdio(0)
+// and save the numbers already processed
