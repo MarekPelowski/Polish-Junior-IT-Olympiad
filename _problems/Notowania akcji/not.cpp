@@ -5,20 +5,25 @@
 using namespace std;
 
 int findIndex(vector <int> vec, int num) {
-    int left = 0, right = vec.size() - 1;
+    // int left = 0, right = vec.size() - 1;
 
-    while(left < right) {
-        int mid = (left + right) / 2;
-        if(vec[mid] < num)
-            left = mid + 1;
-        else
-            right = mid;
-    }
+    // while(left < right) {
+    //     int mid = (left + right) / 2;
+    //     if(vec[mid] < num)
+    //         left = mid + 1;
+    //     else
+    //         right = mid;
+    // }
 
-    if(vec[left] >= num)
-        return left;
-    else
-        return -1;
+    // if(vec[left] >= num)
+    //     return left;
+    // else
+    //     return -1;
+    
+    auto it = lower_bound(vec.begin(), vec.end(), num);
+    if (it == vec.end()) return -1;
+    return it - vec.begin();
+
 }
 
 int main() {
@@ -50,7 +55,7 @@ int main() {
 
     int sum = 0;
     int strS = streaks.size();
-    vector <pair <int, int>> sums(strS);
+    vector <pair <int, int>> sums(strS, {0, 0});
     for(int i = strS - 1; i >= 0; i--) {
         sum += streaks[i];
         sums[i].first = sum;
