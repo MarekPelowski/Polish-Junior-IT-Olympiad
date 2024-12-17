@@ -1,41 +1,46 @@
 #include <algorithm>
 #include <iostream>
-#include <unordered_map>
 #include <vector>
 
 using namespace std;
 
-int dfs(int x, vector <int> C, vector <bool> &visited) {  
+int T[100000], P[100005];
+bool visited[100005];
+
+pair <long long, int> dfs(int x) {
     if(!visited[x]) {
         visited[x] = true;
-        return dfs(C[x], C, visited) + x;
-    } 
-
-    return 0;
+        auto sum = dfs(P[x]);
+        if(sum.second == x)
+            return {sum.first + x, -1};
+        else if(sum.second == -1)
+            return {sum.first, -1};
+        return {sum.first + x, sum.second};
+    }
+    return {0, x};
 }
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
     int N;
     cin >> N;
-    vector <int> T(N);
     for(int i = 0; i < N; i++)
         cin >> T[i];
 
-    vector <int> C(N + 1, 0);
-    vector <bool> visited(N + 1, true);
+    for(int i = 0; i < N; i++) {
+        P[T[i]] = T[T[i] - 1];
+    }
+ 
+    long long ans = 1e18;
 
     for(int i = 0; i < N; i++) {
-        C[T[i]] = T[T[i] - 1];
-        visited[C[T[i]]] = false;
+        auto sum = dfs(T[i]);
+        if(sum.second == -1)
+            ans = min(ans, sum.first);
     }
 
-    int ans = 1e9;
-
-    for(int i = 0; i < N; i++) {
-        ans = min(ans, dfs(T[i], C, visited));
-    }
-
-    cout << ans << "\n";    
+    cout << ans << "\n";
 
     return 0;
 }
