@@ -17,7 +17,7 @@ int main() {
   for(int i = 0; i < (int)counter.size(); i++) {
     threes += counter[i] / 3;
     twos += counter[i] % 3 / 2;
-    if(counter[i] % 3 % 2 == 1) {
+    if(counter[i] % 3 == 1 && counter[i] > 1) {
       bonus++;
       bonus2 += (counter[i] / 3 - 1) / 2;
     } else 
