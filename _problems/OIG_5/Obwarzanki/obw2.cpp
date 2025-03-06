@@ -35,6 +35,9 @@ int main() {
   for(int i = m+1; i < n; i++) {
     if(maxZ <= w[i] || z[i] <= minW) {
       cnt++;
+    } else {
+      minW = min(minW, w[i]);
+      maxZ = max(maxZ, z[i]);
     }
   }
   
