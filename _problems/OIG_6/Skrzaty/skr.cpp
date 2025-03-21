@@ -1,11 +1,31 @@
 #include <iostream>
 #include <vector>
-#include <unordered_set>
+#include <algorithm>
 
 using namespace std;
 
-bool has(const unordered_set<int> &us, int x) {
-	if(us.find(x) != us.end()) {
+int n, m;
+vector<vector<int>> a;
+vector<vector<int>> dp;
+
+bool contains(const vector<int> &a, int x) {
+	auto it = lower_bound(a.begin(), a.end(), x);
+	
+	if(it == a.end() || *it != x) return false;
+	return true;
+}
+
+bool skip(int i) {
+	int avail = n - (int) dp[i].size();
+	int cnt = 0;
+	
+	for(int x : a[i]) {
+		if(contains(dp[i], x)) {
+			cnt++;
+		}
+	}
+	
+	if((contains(dp[i], 1) && contains(a[i], 1)) || (avail != 0 && (int) a[i].size() - cnt == avail)) {
 		return true;
 	}
 	return false;
@@ -15,57 +35,40 @@ int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(0);
 	
-	int n, m;
 	cin >> n >> m;
-	vector<unordered_set<int>> a(m);
 	
-	for (int i = 0; i < m; i++) {
+	a.resize(m);
+	dp.resize(m+1);
+	
+	for(int i = 0; i < m; i++) {
 		int k;
 		cin >> k;
-		for (int j = 0; j < k; j++) {
+		for(int j = 0; j < k; j++) {
 			int x;
 			cin >> x;
-			a[i].insert(x);
+			a[i].push_back(x);
 		}
 	}
-	
-	unordered_set<int> dp;
-	for (int i = 1; i <= n; i++) {
-		dp.insert(i);
+
+	for(int i = 1; i <= n; i++) {
+		dp[0].push_back(i);
 	}
 	
 	int ans = m;
 	
-	for (int i = 0; i < m; i++) {
-		if (has(dp, 1) && has(a[i], 1)) {
+	for(int i = 0; i < m; i++) {
+		if(skip(i)) {
+			dp[i+1] = dp[i];
 			continue;
 		}
 		
-		int cnt = 0;
-		int avail = n - dp.size();
-		
-		for(int x : dp) {
-			if(has(a[i], x)) {
-				cnt++;
+		for(int x : a[i]) {
+			if(contains(dp[i], x)) {
+				dp[i+1].push_back(x);
 			}
 		}
 		
-		bool err = (int) a[i].size() - cnt == avail ? true : false;
-		
-		if(err && avail != 0) {
-			continue;
-		}
-		
-		for (auto it = dp.begin(); it != dp.end(); ) {
-			if (!has(a[i], *it)) {
-				it = dp.erase(it);
-			}
-			else {
-				it++;
-			}
-		}
-		
-		if(!has(dp, n)) {
+		if(!contains(dp[i+1], n)) {
 			ans = i;
 			break;
 		}
