@@ -15,17 +15,17 @@ bool contains(const vector<int> &a, int x) {
 	return true;
 }
 
-bool skip(int i) {
-	int avail = n - (int) dp[i].size();
+bool skip(int i, int dpi) {
+	int avail = n - (int) dp[dpi].size();
 	int cnt = 0;
 	
 	for(int x : a[i]) {
-		if(contains(dp[i], x)) {
+		if(contains(dp[dpi], x)) {
 			cnt++;
 		}
 	}
 	
-	if((contains(dp[i], 1) && contains(a[i], 1)) || (avail != 0 && (int) a[i].size() - cnt == avail)) {
+	if((contains(dp[dpi], 1) && contains(a[i], 1)) || (avail != 0 && (int) a[i].size() - cnt == avail)) {
 		return true;
 	}
 	return false;
@@ -55,15 +55,15 @@ int main() {
 	}
 	
 	int ans = m;
+	int dpi = 0;
 	
 	for(int i = 0; i < m; i++) {
-		if(skip(i)) {
-			dp[i+1] = dp[i];
+		if(skip(i, dpi)) {
 			continue;
 		}
 		
 		for(int x : a[i]) {
-			if(contains(dp[i], x)) {
+			if(contains(dp[dpi], x)) {
 				dp[i+1].push_back(x);
 			}
 		}
@@ -72,6 +72,7 @@ int main() {
 			ans = i;
 			break;
 		}
+		dpi = i+1;
 	}
 	
 	cout << ans << "\n";
