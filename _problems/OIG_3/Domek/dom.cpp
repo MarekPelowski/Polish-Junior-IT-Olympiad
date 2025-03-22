@@ -6,7 +6,6 @@ using namespace std;
 
 int n, k;
 vector<int> tree;
-vector<int> depth;
 vector<vector<int>> dp;
 int L, R;
 
@@ -28,16 +27,6 @@ void dfs(int a) {
 	}
 }
 
-void dfs2(int a) {
-	if(L <= a && a <= R) {
-		depth[a] = 0;
-		return;
-	}
-	dfs2(2*a);
-	dfs2(2*a+1);
-	depth[a] = depth[2*a]+1;
-}
-
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(0);
@@ -48,7 +37,6 @@ int main() {
 	L = (1 << (n-1));
 	R = (1 << n) - 1;
 	tree.resize(R+1);
-	depth.resize(R+1);
 	dp.resize(R+1, vector<int>(k+1));
 	
 	for(int i = 1; i <= R; i++) {
@@ -57,7 +45,6 @@ int main() {
 		tree[i] = a+b;
 	}
 	
-	dfs2(1);
 	dfs(1);
 	
 	cout << dp[1][k] << "\n";
