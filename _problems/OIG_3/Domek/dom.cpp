@@ -12,7 +12,7 @@ int L, R;
 void dfs(int a) {
 	if(L <= a && a <= R) {
 		for(int i = 1; i <= k; i++) {
-			dp[a][i] = tree[a];
+			dp[a][i] = max(dp[a][i], tree[a]);
 		}
 		return;
 	}
