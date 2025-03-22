@@ -4,8 +4,6 @@
 
 using namespace std;
 
-const int INF = 1e9+5;
-
 int n, k;
 vector<int> tree;
 vector<int> depth;
@@ -14,7 +12,7 @@ int L, R;
 
 void dfs(int a) {
 	if(L <= a && a <= R) {
-		for(int i = 1; i <= 20; i++) {
+		for(int i = 1; i <= k; i++) {
 			dp[a][i] = tree[a];
 		}
 		return;
@@ -23,7 +21,11 @@ void dfs(int a) {
 	dfs(2*a);
 	dfs(2*a+1);
 	
-	
+	for(int i = 1; i <= k; i++) {
+		for(int j = 0; j < i; j++) {
+			dp[a][i] = max(dp[a][i], dp[2*a][j] + dp[2*a+1][i-j-1] + tree[a]);
+		}
+	}
 }
 
 void dfs2(int a) {
@@ -40,14 +42,14 @@ int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(0);
 
-	int n, k;
 	cin >> n >> k;
+	k /= 2;
 	
 	L = (1 << (n-1));
 	R = (1 << n) - 1;
 	tree.resize(R+1);
 	depth.resize(R+1);
-	dp.resize(R+1, vector<int>(21));
+	dp.resize(R+1, vector<int>(k+1));
 	
 	for(int i = 1; i <= R; i++) {
 		int a, b;
@@ -58,14 +60,7 @@ int main() {
 	dfs2(1);
 	dfs(1);
 	
-	for(int i = 1; i <= R; i++) {
-		cout << i << ":\n";
-		for(int j = 0; j <= 20; j++) {
-			cout << dp[i][j] << " ";
-		}
-		cout << "\n\n";
-	}
-	
+	cout << dp[1][k] << "\n";
 	
 	return 0;
 }
