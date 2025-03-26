@@ -36,7 +36,7 @@ int main() {
 	}
 	
 	unordered_map<int,int> sufJ, sufS;
-	for(int i = 0; i < n; i++) {
+	for(int i = 3; i <= n-2; i++) {
 		int suf = pref[n-1] - pref[i];
 		if(s[i] == 'J') sufJ[suf] = i;
 		else sufS[suf] = i;
@@ -63,23 +63,21 @@ int main() {
 			if(c == 'J') suf = sufJ[a];
 			else suf = sufS[a];
 			
-			bool flag = false;
 			if(i+1 < suf) {
 				for(int j = i+2; j <= n-2; j++) {
 					if(s[j] == c) {
 						if(pref[n-1] - pref[j] == a) {
 							A = i+1;
 							B = j+1;
-							flag = true;
 							break;
 						}
 					}
 				}
+				break;
 			}
-			if(flag) break;
 		}
 	}
-	
+
 	if(A == -1) {
 		cout << "BRAK\n";
 		return 0;
