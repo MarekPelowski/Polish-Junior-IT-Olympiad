@@ -1,14 +1,16 @@
 #include <bits/stdc++.h>
 
 using namespace std;
+using ll = long long;
 
+const int MOD = 1e9+7;
 const int MAXN = 20;
 int LIM;
 int n;
 vector<int> a(MAXN+1);
 
-long long sum(int mask) {
-	long long ans = 0;
+ll sum(int mask) {
+	ll ans = 0;
 	for(int i = 0; i < n; i++) {
 		if(mask & (1 << i)) {
 			ans += a[n-i-1];
@@ -36,7 +38,7 @@ int main() {
 			int bit = (1 << i);
 			if(mask & bit) {
 				int rest = mask ^ bit;
-				dp[mask] += dp[rest];
+				dp[mask] = (dp[mask] + dp[rest]) % MOD;
 			}
 		}
 	}
