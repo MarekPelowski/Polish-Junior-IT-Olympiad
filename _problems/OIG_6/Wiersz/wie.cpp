@@ -1,15 +1,27 @@
-#include <iostream>
-#include <string>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-bool vowel(char c) {
-	for(char a : {'a', 'e', 'i', 'o', 'u', 'y'}) {
-		if(c == a)
-			return true;
+string no_spaces(string s) {
+	string ans = "";
+	for(char c : s) {
+		if(c != ' ') {
+			ans.push_back(c);
+		}
 	}
-	return false;
+	return ans;
+}
+
+int vowels(string s) {
+	int cnt = 0;
+	for(char c : s) {
+		for(char v : {'a', 'e', 'i', 'o', 'u', 'y'}) {
+			if(c == v) {
+				cnt++;
+				break;
+			}
+		}
+	}
+	return cnt;
 }
 
 int main() {
@@ -18,44 +30,35 @@ int main() {
 	
 	int n, k;
 	cin >> n >> k;
-	vector<string> s(2*n);
+	cin.ignore();
+	vector<string> a(2*n);
 	for(int i = 0; i < 2*n; i++) {
-		cin >> s[i];
+		string x;
+		getline(cin, x);
+		a[i] = no_spaces(x);
 	}
 	
-	int ans = 0;
+	int cnt = 0;
 	for(int i = 0; i < 2*n; i+=2) {
-		int size1 = s[i].size();
-		int size2 = s[i+1].size();
+		int len1 = a[i].length();
+		int len2 = a[i+1].length();
 		
-		if(size1 < k || size2 < k) {
-			continue;
-		}
-	
-		bool flag = false;
-		for(int j = 1; j <= k; j++) {
-			if(s[i][size1-j] != s[i+1][size2-j]) {
-				flag = true;
-				break;
+		if(vowels(a[i]) == vowels(a[i+1]) && len1 >= k && len2 >= k) {
+			bool flag = true;
+			
+			for(int j = 0; j < k; j++) {
+				if(a[i][len1-j-1] != a[i+1][len2-j-1]) {
+					flag = false;
+				}
+			}
+			
+			if(flag) {
+				cnt++;
 			}
 		}
-		if(flag) continue;
-		int cnt1 = 0, cnt2 = 0;
-		
-		for(int j = 0; j < size1; j++) {
-			if(vowel(s[i][j])) cnt1++;
-		}
-
-		for(int j = 0; j < size2; j++) {
-			if(vowel(s[i+1][j])) cnt2++;
-		}
-
-		if(cnt1 == cnt2) {
-			ans++;
-		}
 	}
 	
-	cout << ans << "\n";
+	cout << cnt << "\n";
 	
 	return 0;
 }
