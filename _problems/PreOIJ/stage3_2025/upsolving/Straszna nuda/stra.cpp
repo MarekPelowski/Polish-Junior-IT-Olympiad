@@ -17,13 +17,12 @@ int main() {
 	}
 	
 	vector<long long> dp(MAXA+1);
-	for(int i = 1; i <= MAXA; i++) {
-		long long dp1 = (i-2 >= 0) ? dp[i-2] : 0;
-		long long dp2 = (i-3 >= 0) ? dp[i-3] : 0;
-		dp[i] = max(dp1, dp2) + (long long)freq[i] * i;
+	dp[1] = freq[1];
+	for(int i = 2; i <= MAXA; i++) {
+		dp[i] = max(dp[i-1], dp[i-2] + (long long)freq[i] * i);
 	}
 	
-	cout << max(dp[MAXA], dp[MAXA-1]) << "\n";
+	cout << dp[MAXA] << "\n";
 	
 	return 0;
 }
