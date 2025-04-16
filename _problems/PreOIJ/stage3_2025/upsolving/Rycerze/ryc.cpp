@@ -41,6 +41,11 @@ long long getLcmInVec(const vector<int> &s, int m, int &cnt) {
 	return lcm;
 }
 
+long long getLcmInVec(const vector<int> &s, int m) {
+	int cnt = 0;
+	return getLcmInVec(s, m, cnt);
+}
+
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(0);
@@ -59,8 +64,7 @@ int main() {
 			maxVal = max(maxVal, s[i]);
 		}
 		
-		int temp = 0;
-		long long bigLCM = getLcmInVec(s, -1, temp);
+		long long bigLCM = getLcmInVec(s, -1);
 		if(bigLCM != maxVal || bigLCM == -1) {
 			cout << n << "\n";
 			continue;
