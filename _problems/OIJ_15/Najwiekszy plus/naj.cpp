@@ -4,31 +4,7 @@ using namespace std;
 int MAX_N = 4e5+5;
 int n;
 vector<int> t(MAX_N);
-
-bool ok(int l) {
-	bool part2 = false;
-	int cnt = 0;
-	
-	for(int i = 0; i < n; i++) {
-		cnt++;
-		
-		if(t[i] <= l) {
-			part2 = false;
-			cnt = 0;
-			continue;
-		}
-		
-		if(!part2 && cnt >= l+1 && t[i] >= 2*l+1) {
-			part2 = true;
-			cnt = 0;
-		}
-		
-		if(part2 && cnt >= l) {
-			return true;
-		}
-	}
-	return false;
-}
+vector<int> lg(MAX_N);
 
 int main() {
 	ios_base::sync_with_stdio(false);
@@ -39,20 +15,28 @@ int main() {
 		cin >> t[i];
 	}
 	
-	int L = 0, R = 4e5;
-	
-	while(L < R) {
-		int M = (L + R + 1) / 2;
-		
-		if(ok(M)) {
-			L = M;
+	int cur = 0;
+	for(int i = 1; i <= n; i++) {
+		if((1 << (cur+1)) <= i) {
+			cur++;
 		}
-		else {
-			R = M - 1;
+		
+		lg[i] = cur; 
+	}
+	
+	vector<vector<int>> st(lg[n], vector<int>(MAX_N));
+	
+	for(int i = 0; i < n; i++) {
+		st[0][i] = t[i];
+	}
+	
+	for(int k = 1; (1 << k) <= n; k++) {
+		for(int i = 0; i < n; i++) {
+			st[k][i] = min(st[k-1][i], st[k-1][i + (1 << (k-1))]);
 		}
 	}
 	
-	cout << L << "\n";
+	
 	
 	return 0;
 }
