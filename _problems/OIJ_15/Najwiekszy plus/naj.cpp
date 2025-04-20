@@ -11,7 +11,7 @@ int getMin(int L, int R) {
 	int k = lg[R-L+1];
 	int powK = (1 << k);
 	
-	return st[k][R-powK+1];
+	return min(st[k][L], st[k][R-powK+1]);
 }
 
 int main() {
@@ -33,7 +33,7 @@ int main() {
 	}
 	
 	st.resize(lg[n]+1, vector<int>(MAX_N));
-	
+
 	for(int i = 0; i < n; i++) {
 		st[0][i] = t[i];
 	}
