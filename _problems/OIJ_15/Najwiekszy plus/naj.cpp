@@ -5,6 +5,14 @@ int MAX_N = 4e5+5;
 int n;
 vector<int> t(MAX_N);
 vector<int> lg(MAX_N);
+vector<vector<int>> st;
+
+int getMin(int L, int R) {
+	int k = lg[R-L+1];
+	int powK = (1 << k);
+	
+	return st[k][R-powK+1];
+}
 
 int main() {
 	ios_base::sync_with_stdio(false);
@@ -24,7 +32,7 @@ int main() {
 		lg[i] = cur; 
 	}
 	
-	vector<vector<int>> st(lg[n], vector<int>(MAX_N));
+	st.resize(lg[n]+1, vector<int>(MAX_N));
 	
 	for(int i = 0; i < n; i++) {
 		st[0][i] = t[i];
@@ -32,11 +40,38 @@ int main() {
 	
 	for(int k = 1; (1 << k) <= n; k++) {
 		for(int i = 0; i < n; i++) {
-			st[k][i] = min(st[k-1][i], st[k-1][i + (1 << (k-1))]);
+			if(i + (1 << (k-1)) < n) {
+				st[k][i] = min(st[k-1][i], st[k-1][i + (1 << (k-1))]);
+			}
+			else {
+				st[k][i] = st[k-1][i];
+			}
 		}
 	}
 	
+	int ans = 0;
 	
+	for(int i = 0; i < n; i++) {
+		int L = 0;
+		int R = min({i, n-1-i, (t[i]-1) / 2}); 
+		
+		while(L < R) {
+			int M = (L + R + 1) / 2;
+			
+			int minT = getMin(i-M, i+M);
+			
+			if(minT >= M+1) {
+				L = M;
+			}
+			else {
+				R = M - 1;
+			}
+		}
+		
+		ans = max(ans, L);
+	}
+	
+	cout << ans << "\n";
 	
 	return 0;
 }
