@@ -6,5 +6,5 @@ for((i = 1; i <= 100; ++i)); do
 	./gen $i > input
 	./not < input > wzor_out
 	./brute < input > brute_out
-	diff -w brute_out wzor_ouit || break
+	diff -w brute_out wzor_out || break
 done
